@@ -13,25 +13,19 @@
 		<script type="text/javascript" src="RectangleHandle.js"></script>
 		<script type="text/javascript" src="RectangleHandles.js"></script>
 		<script type="text/javascript" src="EditableRectangle.js"></script>
+		<!--<script type="text/javascript" src="compiled/EditableRectangle.js"></script>-->
 		<script type="text/javascript">
 
-			var home = new google.maps.LatLng(48.881103,16.67809);
-
-			var sw = new google.maps.LatLng(48.877361,16.684456);
-			var ne = new google.maps.LatLng(48.88515,16.698532);
-			var bounds = new google.maps.LatLngBounds(sw, ne);
-
 			$(function() {
-				var latlng = home;
-				var myOptions = {
+				var mapOptions = {
 					zoom: 14,
-					center: latlng,
+					center: new google.maps.LatLng(48.881103,16.67809),
 					mapTypeId: google.maps.MapTypeId.ROADMAP
 				};
-				var map = new google.maps.Map(document.getElementById("map"), myOptions);
-				var e = new EditableRectangle(map);
-				e.enableDrawing();
-				google.maps.event.addListener(e, 'resizing', function(bounds) {
+				var map = new google.maps.Map($('#map')[0], mapOptions);
+				var rectangle = new EditableRectangle(map);
+				rectangle.enableDrawing();
+				google.maps.event.addListener(rectangle, 'resizing', function(bounds) {
 					$('#sw').val(bounds.getNorthEast().lat());
 					$('#ne').val(bounds.getSouthWest().lat());
 				});
