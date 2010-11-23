@@ -23,7 +23,7 @@
 					mapTypeId: google.maps.MapTypeId.ROADMAP
 				};
 				var map = new google.maps.Map($('#map')[0], mapOptions);
-				var rectangle = new EditableRectangle(map);
+				var rectangle = new EditableRectangle({map: map});
 				rectangle.enableDrawing();
 				google.maps.event.addListener(rectangle, 'resizing', function(bounds) {
 					$('#sw').val(bounds.getNorthEast().lat());

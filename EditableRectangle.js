@@ -1,12 +1,14 @@
-function EditableRectangle(map, bounds) {
+function EditableRectangle(options) {
 
-	this.set('map', map);	
-	this.set('bounds', bounds);
+	this.set('map', options.map);	
+	this.set('bounds', options.bounds);
 
 	this.rect = new google.maps.Rectangle({
-		strokeWeight: 1,
-		strokeColor: '#ff0000',
-		fillColor: '#ff0000'
+		fillColor: options.fillColor || '#ff0000',
+		fillOpacity: options.fillOpacity || 0.3,
+		strokeColor: options.strokeColor || '#ff0000',
+		strokeOpacity: options.strokeOpacity || 1,
+		strokeWeight: options.strokeWeight || 1
 	});
 	this.rect.bindTo('map', this);
 	this.rect.bindTo('bounds', this);
