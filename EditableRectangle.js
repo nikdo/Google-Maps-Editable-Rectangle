@@ -17,6 +17,11 @@ function EditableRectangle(options) {
 	this.handles.bindTo('map', this);
 	this.handles.bindTo('ne', this);
 	this.handles.bindTo('sw', this);
+
+	var me = this;
+	google.maps.event.addListener(this.handles, 'dragend', function() {
+		google.maps.event.trigger(me, 'resizeend', me.get('bounds'));
+	});
 }
 
 // not inheriting from google.maps.Rectangle to avoid property

@@ -7,36 +7,59 @@
 		<style type="text/css">
 			body { width: 800px; margin: 0 auto; padding: 0; }
 			#map { height: 400px; }
+			input { width: 20em; }
 		</style>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-		<script type="text/javascript" src="RectangleHandle.js"></script>
-		<script type="text/javascript" src="RectangleHandles.js"></script>
-		<script type="text/javascript" src="EditableRectangle.js"></script>
-		<!--<script type="text/javascript" src="compiled/EditableRectangle.js"></script>-->
-		<script type="text/javascript">
-
-			$(function() {
-				var mapOptions = {
-					zoom: 14,
-					center: new google.maps.LatLng(48.881103,16.67809),
-					mapTypeId: google.maps.MapTypeId.ROADMAP
-				};
-				var map = new google.maps.Map($('#map')[0], mapOptions);
-				var rectangle = new EditableRectangle({map: map});
-				rectangle.enableDrawing();
-				google.maps.event.addListener(rectangle, 'resizing', function(bounds) {
-					$('#sw').val(bounds.getNorthEast().lat());
-					$('#ne').val(bounds.getSouthWest().lat());
-				});
-			});
-
-		</script>
 	</head>
 	<body>
 		<h1>Google Maps Editable Bounds</h1>
-		<label for="sw">Southwest</label><input id="sw" />
-		<label for="ne">Northeast</label><input id="ne" />
+
+		<p>
+			<label for="sw">Southwest:</label> <input id="sw" />
+			<label for="ne">Northeast:</label> <input id="ne" />
+		</p>
+
+		<p>
+			<label for="swEnd">Southwest:</label> <input id="swEnd" />
+			<label for="neEnd">Northeast:</label> <input id="neEnd" />
+		</p>
+
 		<div id="map"></div>
 	</body>
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript" src="RectangleHandle.js"></script>
+	<script type="text/javascript" src="RectangleHandles.js"></script>
+	<script type="text/javascript" src="EditableRectangle.js"></script>
+	<!--<script type="text/javascript" src="compiled/EditableRectangle.js"></script>-->
+	<script type="text/javascript">
+
+		$(function() {
+			var mapOptions = {
+				zoom: 14,
+				center: new google.maps.LatLng(48.881103,16.67809),
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+			var map = new google.maps.Map($('#map')[0], mapOptions);
+
+			var rectangle = new EditableRectangle({map: map});
+			rectangle.enableDrawing();
+
+			google.maps.event.addListener(rectangle, 'resizing', function(bounds) {
+				logBounds($('#sw'), $('#ne'), bounds);
+			});
+			google.maps.event.addListener(rectangle, 'resizeend', function(bounds) {
+				logBounds($('#swEnd'), $('#neEnd'), bounds);
+			});
+		});
+
+		function logBounds(swInput, neInput, bounds) {
+				var sw = bounds.getSouthWest();
+				var ne = bounds.getNorthEast();
+				swInput.val(sw.lat() + ', ' + sw.lng());
+				neInput.val(ne.lat() + ', ' + ne.lng());
+		}
+
+	</script>
+
 </html>
